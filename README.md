@@ -8,9 +8,11 @@ This app will ask your permission to locate your location for accurate weather f
 
 <h3> Application Features </h3>
 ● Home Page will show you a pop up request to locate your location. If permitted it will directly locate your location through geolocation which your browser supports.<br>
-● If not supported it will give you an error message and you can provide manually the city name in the search bar. <br>
+● If not supported or if you block the request then it will give you an error message and you can provide manually the city name in the search bar. <br>
 ● Accordingly the function will set the latitude and longitude to the API link dynamically to fetch the forecast. <br>
 ● It shows the current temperature, humidity, and weather conditions as well as following 5 days forecast. <br>
+● To represent weather conditions, we will use icons or images like a sun or a cloud. 
+
 
 
 <h3>Technologies and tools Used:</h3>
