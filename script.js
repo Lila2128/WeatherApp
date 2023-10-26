@@ -1,5 +1,5 @@
 
-    // Select Elements: For Current Data:
+// Select Elements: For Current Data:
 const cityElement = document.querySelector(".city");
 const countryElement = document.querySelector(".country");
 var dateElement = new Date();
@@ -169,71 +169,152 @@ function getWeather(latitude, longitude) {
 function fetchWeather(city) {
     var api = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apikey}`;
 
-    fetch(api)
+    console.log(city);
+    let cityStatus = false;
+        fetch(api)
+            .then(function (response) {
+                if (response.ok == true) {
+                    cityStatus = true;
+                    console.log("response.ok " + response.ok);
+                    let data = response.json();
+                    console.log(cityStatus);
+                    notificationElement.innerHTML="";
+                    return data;
+                }
+            })
+            .then(function (data) {
+                // For current
+                weather.temperature = data.list[0].main.temp;
+                weather.min = data.list[0].main.temp_min;
+                weather.max = data.list[0].main.temp_max;
+                weather.description = data.list[0].weather[0].description;
+                weather.iconId = data.list[0].weather[0].icon;
+                weather.city = data.city.name;
+                weather.country = data.city.country;
+                weather.humidity = data.list[0].main.humidity;
+                weather.wind = data.list[0].wind.speed;
 
-        .then(function (response) {
-            let data = response.json();
-            return data;
-        })
-        .then(function (data) {
-            // For current
-            weather.temperature = data.list[0].main.temp;
-            weather.min = data.list[0].main.temp_min;
-            weather.max = data.list[0].main.temp_max;
-            weather.description = data.list[0].weather[0].description;
-            weather.iconId = data.list[0].weather[0].icon;
-            weather.city = data.city.name;
-            weather.country = data.city.country;
-            weather.humidity = data.list[0].main.humidity;
-            weather.wind = data.list[0].wind.speed;
+                // for Day 1;
+                weather.min1 = data.list[5].main.temp_min;
+                weather.max1 = data.list[5].main.temp_max;
+                weather.description1 = data.list[5].weather[0].description;
+                weather.iconId1 = data.list[5].weather[0].icon;
+                weather.humidity1 = data.list[5].main.humidity;
+                weather.wind1 = data.list[5].wind.speed;
+                // for Day 2;
+                weather.min2 = data.list[12].main.temp_min;
+                weather.max2 = data.list[12].main.temp_max;
+                weather.description2 = data.list[12].weather[0].description;
+                weather.iconId2 = data.list[12].weather[0].icon;
+                weather.humidity2 = data.list[12].main.humidity;
+                weather.wind2 = data.list[12].wind.speed;
+                // for Day 3;
+                weather.min3 = data.list[16].main.temp_min;
+                weather.max3 = data.list[16].main.temp_max;
+                weather.description3 = data.list[16].weather[0].description;
+                weather.iconId3 = data.list[16].weather[0].icon;
+                weather.humidity3 = data.list[16].main.humidity;
+                weather.wind3 = data.list[16].wind.speed;
+                // for Day 4;
+                weather.min4 = data.list[23].main.temp_min;
+                weather.max4 = data.list[23].main.temp_max;
+                weather.description4 = data.list[23].weather[0].description;
+                weather.iconId4 = data.list[23].weather[0].icon;
+                weather.humidity4 = data.list[23].main.humidity;
+                weather.wind4 = data.list[23].wind.speed;
+                // for Day 5;
+                weather.min5 = data.list[29].main.temp_min;
+                weather.max5 = data.list[29].main.temp_max;
+                weather.description5 = data.list[29].weather[0].description;
+                weather.iconId5 = data.list[29].weather[0].icon;
+                weather.humidity5 = data.list[29].main.humidity;
+                weather.wind5 = data.list[29].wind.speed;
+                // for Day 6;
+                weather.min6 = data.list[35].main.temp_min;
+                weather.max6 = data.list[35].main.temp_max;
+                weather.description6 = data.list[35].weather[0].description;
+                weather.iconId6 = data.list[35].weather[0].icon;
+                weather.humidity6 = data.list[35].main.humidity;
+                weather.wind6 = data.list[35].wind.speed;
+            })
+            .then(function () {
+                displayWeather();
+            })
+            //If the entered location is not available in the API. Then the default location is set to Delhi.
+        defaultCity = "Delhi";
+        api = `https://api.openweathermap.org/data/2.5/forecast?q=${defaultCity}&units=metric&appid=${apikey}`;
+        fetch(api)
+            .then(function (response) {
+                if (cityStatus == false) {
+                    let data = response.json();
+                    console.log("response.ok default " + response.ok);
+                    console.log(cityStatus);
+                    console.log(response.status);
+                    if (cityStatus == false) {
+                        notificationElement.innerHTML = "<p> Default City is set to Delhi if the location is not detected by the API</p>";
+                    }
+                    return data;
+                }
+            }).then(function (data) {
+                // For current
+                weather.temperature = data.list[0].main.temp;
+                weather.min = data.list[0].main.temp_min;
+                weather.max = data.list[0].main.temp_max;
+                weather.description = data.list[0].weather[0].description;
+                weather.iconId = data.list[0].weather[0].icon;
+                weather.city = data.city.name;
+                weather.country = data.city.country;
+                weather.humidity = data.list[0].main.humidity;
+                weather.wind = data.list[0].wind.speed;
 
-            // for Day 1;
-            weather.min1 = data.list[5].main.temp_min;
-            weather.max1 = data.list[5].main.temp_max;
-            weather.description1 = data.list[5].weather[0].description;
-            weather.iconId1 = data.list[5].weather[0].icon;
-            weather.humidity1 = data.list[5].main.humidity;
-            weather.wind1 = data.list[5].wind.speed;
-            // for Day 2;
-            weather.min2 = data.list[12].main.temp_min;
-            weather.max2 = data.list[12].main.temp_max;
-            weather.description2 = data.list[12].weather[0].description;
-            weather.iconId2 = data.list[12].weather[0].icon;
-            weather.humidity2 = data.list[12].main.humidity;
-            weather.wind2 = data.list[12].wind.speed;
-            // for Day 3;
-            weather.min3 = data.list[16].main.temp_min;
-            weather.max3 = data.list[16].main.temp_max;
-            weather.description3 = data.list[16].weather[0].description;
-            weather.iconId3 = data.list[16].weather[0].icon;
-            weather.humidity3 = data.list[16].main.humidity;
-            weather.wind3 = data.list[16].wind.speed;
-            // for Day 4;
-            weather.min4 = data.list[23].main.temp_min;
-            weather.max4 = data.list[23].main.temp_max;
-            weather.description4 = data.list[23].weather[0].description;
-            weather.iconId4 = data.list[23].weather[0].icon;
-            weather.humidity4 = data.list[23].main.humidity;
-            weather.wind4 = data.list[23].wind.speed;
-            // for Day 5;
-            weather.min5 = data.list[29].main.temp_min;
-            weather.max5 = data.list[29].main.temp_max;
-            weather.description5 = data.list[29].weather[0].description;
-            weather.iconId5 = data.list[29].weather[0].icon;
-            weather.humidity5 = data.list[29].main.humidity;
-            weather.wind5 = data.list[29].wind.speed;
-            // for Day 6;
-            weather.min6 = data.list[35].main.temp_min;
-            weather.max6 = data.list[35].main.temp_max;
-            weather.description6 = data.list[35].weather[0].description;
-            weather.iconId6 = data.list[35].weather[0].icon;
-            weather.humidity6 = data.list[35].main.humidity;
-            weather.wind6 = data.list[35].wind.speed;
-        })
-        .then(function () {
-            displayWeather();
-        })
-}
+                // for Day 1;
+                weather.min1 = data.list[5].main.temp_min;
+                weather.max1 = data.list[5].main.temp_max;
+                weather.description1 = data.list[5].weather[0].description;
+                weather.iconId1 = data.list[5].weather[0].icon;
+                weather.humidity1 = data.list[5].main.humidity;
+                weather.wind1 = data.list[5].wind.speed;
+                // for Day 2;
+                weather.min2 = data.list[12].main.temp_min;
+                weather.max2 = data.list[12].main.temp_max;
+                weather.description2 = data.list[12].weather[0].description;
+                weather.iconId2 = data.list[12].weather[0].icon;
+                weather.humidity2 = data.list[12].main.humidity;
+                weather.wind2 = data.list[12].wind.speed;
+                // for Day 3;
+                weather.min3 = data.list[16].main.temp_min;
+                weather.max3 = data.list[16].main.temp_max;
+                weather.description3 = data.list[16].weather[0].description;
+                weather.iconId3 = data.list[16].weather[0].icon;
+                weather.humidity3 = data.list[16].main.humidity;
+                weather.wind3 = data.list[16].wind.speed;
+                // for Day 4;
+                weather.min4 = data.list[23].main.temp_min;
+                weather.max4 = data.list[23].main.temp_max;
+                weather.description4 = data.list[23].weather[0].description;
+                weather.iconId4 = data.list[23].weather[0].icon;
+                weather.humidity4 = data.list[23].main.humidity;
+                weather.wind4 = data.list[23].wind.speed;
+                // for Day 5;
+                weather.min5 = data.list[29].main.temp_min;
+                weather.max5 = data.list[29].main.temp_max;
+                weather.description5 = data.list[29].weather[0].description;
+                weather.iconId5 = data.list[29].weather[0].icon;
+                weather.humidity5 = data.list[29].main.humidity;
+                weather.wind5 = data.list[29].wind.speed;
+                // for Day 6;
+                weather.min6 = data.list[35].main.temp_min;
+                weather.max6 = data.list[35].main.temp_max;
+                weather.description6 = data.list[35].weather[0].description;
+                weather.iconId6 = data.list[35].weather[0].icon;
+                weather.humidity6 = data.list[35].main.humidity;
+                weather.wind6 = data.list[35].wind.speed;
+            })
+            .then(function () {
+                displayWeather();
+            })
+    }
+
 
 //  To fetch the value from the search button to search:
 function search() {
@@ -242,7 +323,7 @@ function search() {
 
 // Display Weather to Ui:
 
-function displayWeather(data) {
+function displayWeather() {
     // for current
     document.getElementById('test').innerHTML = dateElement.toDateString();
     iconElement.src = `http://openweathermap.org/img/wn/${weather.iconId}@2x.png`;
@@ -254,7 +335,7 @@ function displayWeather(data) {
     countryElement.innerHTML = `, ${weather.country}`;
     humidityElement.innerHTML = `Humidity: ${weather.humidity} %`;
     windElement.innerHTML = `Wind Speed: ${weather.wind} Km/h`;
-    
+
     // For day 1
     dateElement1.setDate(dateElement.getDate() + 1);
     document.getElementById("date1").innerHTML = dateElement1.toDateString();
